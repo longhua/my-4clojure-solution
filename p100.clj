@@ -32,3 +32,15 @@
     (throw (Exception. "Not enough arguments"))
     (first (lazy-cm
              (map (fn [n] (iterate #(+ % n) n)) nums)))))
+
+; Use GCD to caculate two numbers' least common multiple
+(fn lcm [n & others]
+  (letfn [(gcd [a b]
+               (if (zero? b)
+                 a
+                 (gcd b (mod a b))))
+          (lcm_2 [a b]
+                 (/ (* a b) (gcd a b)))]
+    (if (empty? others)
+      n
+      (recur (lcm_2 n (first others)) (rest others)))))
